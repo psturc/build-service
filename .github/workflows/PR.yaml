@@ -1,35 +1,38 @@
 name: Validate PR
 on:
   pull_request:
+    branches: [ main ]
 jobs:
   static_checks:
     name: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Golang
-        uses: actions/setup-go@v2
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
         with:
-          args: --timeout=3m
+          go-version-file: './go.mod'
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
       - name: Run Gosec Security Scanner
         uses: securego/gosec@master
         with:
           # we let the report trigger content trigger a failure using the GitHub Security features.
           args: '-no-fail -fmt sarif -out results.sarif ./...'
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           # Path to SARIF file relative to the root of the repository
           sarif_file: results.sarif
 
-  unit_tests:
-    name: Unit tests
+  envtest:
+    name: Run envtest and coverage check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Golang
-        uses: actions/setup-go@v2
-      - name: Run unit tests
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: './go.mod'
+      - name: Run tests
         run: make test
+      - name: Codecov
+        uses: codecov/codecov-action@v3
