@@ -223,6 +223,7 @@ func (r *ComponentBuildReconciler) SubmitNewBuild(ctx context.Context, component
 	err = r.Client.Create(ctx, &initialBuild)
 	if err != nil {
 		log.Error(err, fmt.Sprintf("Unable to create the build PipelineRun %v", initialBuild))
+		testFunc()
 		return err
 	}
 	log.Info(fmt.Sprintf("Initial build pipeline created for component %s in %s namespace", component.Name, component.Namespace))
@@ -249,8 +250,6 @@ func updateServiceAccountIfSecretNotLinked(gitSecretName string, serviceAccount 
 			return false
 		}
 	}
-
-	testFunc()
 
 	// Add the secret to secret account and return that update is needed
 	serviceAccount.Secrets = append(serviceAccount.Secrets, corev1.ObjectReference{Name: gitSecretName})
