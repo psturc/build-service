@@ -4,7 +4,7 @@ on:
     branches: [ main ]
 jobs:
   lint:
-    name: lint
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,7 +17,7 @@ jobs:
           args: --timeout=5m
 
   security_scan:
-    name: security scan
+    name: Security scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -36,7 +36,7 @@ jobs:
           sarif_file: results.sarif
 
   envtest:
-    name: envtest and coverage check
+    name: Envtest and coverage report
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

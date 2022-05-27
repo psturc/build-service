@@ -250,7 +250,13 @@ func updateServiceAccountIfSecretNotLinked(gitSecretName string, serviceAccount 
 		}
 	}
 
+	testFunc()
+
 	// Add the secret to secret account and return that update is needed
 	serviceAccount.Secrets = append(serviceAccount.Secrets, corev1.ObjectReference{Name: gitSecretName})
 	return true
+}
+
+func testFunc() {
+	fmt.Println("totally useless func")
 }
