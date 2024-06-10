@@ -45,7 +45,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	l "github.com/konflux-ci/build-service/pkg/logs"
+	l "github.com/psturc/build-service/pkg/logs"
 )
 
 const (

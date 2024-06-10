@@ -17,8 +17,8 @@ limitations under the License.
 package controllers
 
 import (
-	gp "github.com/konflux-ci/build-service/pkg/git/gitprovider"
-	gpf "github.com/konflux-ci/build-service/pkg/git/gitproviderfactory"
+	gp "github.com/psturc/build-service/pkg/git/gitprovider"
+	gpf "github.com/psturc/build-service/pkg/git/gitproviderfactory"
 )
 
 var (

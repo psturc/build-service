@@ -26,9 +26,9 @@ import (
 	"strings"
 
 	appstudiov1alpha1 "github.com/konflux-ci/application-api/api/v1alpha1"
-	"github.com/konflux-ci/build-service/pkg/boerrors"
-	. "github.com/konflux-ci/build-service/pkg/common"
-	l "github.com/konflux-ci/build-service/pkg/logs"
+	"github.com/psturc/build-service/pkg/boerrors"
+	. "github.com/psturc/build-service/pkg/common"
+	l "github.com/psturc/build-service/pkg/logs"
 	tektonapi "github.com/tektoncd/pipeline/pkg/apis/pipeline/v1"
 	"gopkg.in/yaml.v2"
 	corev1 "k8s.io/api/core/v1"

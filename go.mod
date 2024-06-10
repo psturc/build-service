@@ -1,4 +1,4 @@
-module github.com/konflux-ci/build-service
+module github.com/psturc/build-service
 
 go 1.20
 

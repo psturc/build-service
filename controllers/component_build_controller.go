@@ -37,11 +37,11 @@ import (
 
 	appstudiov1alpha1 "github.com/konflux-ci/application-api/api/v1alpha1"
 
-	"github.com/konflux-ci/build-service/pkg/boerrors"
-	"github.com/konflux-ci/build-service/pkg/bometrics"
-	"github.com/konflux-ci/build-service/pkg/k8s"
-	l "github.com/konflux-ci/build-service/pkg/logs"
-	"github.com/konflux-ci/build-service/pkg/webhook"
+	"github.com/psturc/build-service/pkg/boerrors"
+	"github.com/psturc/build-service/pkg/bometrics"
+	"github.com/psturc/build-service/pkg/k8s"
+	l "github.com/psturc/build-service/pkg/logs"
+	"github.com/psturc/build-service/pkg/webhook"
 )
 
 const (

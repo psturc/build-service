@@ -33,7 +33,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
 	appstudiov1alpha1 "github.com/konflux-ci/application-api/api/v1alpha1"
-	l "github.com/konflux-ci/build-service/pkg/logs"
+	l "github.com/psturc/build-service/pkg/logs"
 	tektonapi "github.com/tektoncd/pipeline/pkg/apis/pipeline/v1"
 )
 

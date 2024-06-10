@@ -20,9 +20,9 @@ import (
 	"fmt"
 	"testing"
 
-	. "github.com/konflux-ci/build-service/pkg/common"
-	"github.com/konflux-ci/build-service/pkg/git/github"
-	"github.com/konflux-ci/build-service/pkg/git/gitlab"
+	. "github.com/psturc/build-service/pkg/common"
+	"github.com/psturc/build-service/pkg/git/github"
+	"github.com/psturc/build-service/pkg/git/gitlab"
 )
 
 func TestGetContainerImageRepository(t *testing.T) {

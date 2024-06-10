@@ -25,8 +25,8 @@ import (
 	"time"
 
 	"github.com/google/go-github/v45/github"
-	"github.com/konflux-ci/build-service/pkg/boerrors"
-	gp "github.com/konflux-ci/build-service/pkg/git/gitprovider"
+	"github.com/psturc/build-service/pkg/boerrors"
+	gp "github.com/psturc/build-service/pkg/git/gitprovider"
 )
 
 func getOwnerAndRepoFromUrl(repoUrl string) (owner string, repository string) {

@@ -19,11 +19,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	logger "sigs.k8s.io/controller-runtime/pkg/log"
 
-	. "github.com/konflux-ci/build-service/pkg/common"
-	"github.com/konflux-ci/build-service/pkg/git"
-	"github.com/konflux-ci/build-service/pkg/git/github"
-	"github.com/konflux-ci/build-service/pkg/logs"
-	"github.com/konflux-ci/build-service/pkg/renovate"
+	. "github.com/psturc/build-service/pkg/common"
+	"github.com/psturc/build-service/pkg/git"
+	"github.com/psturc/build-service/pkg/git/github"
+	"github.com/psturc/build-service/pkg/logs"
+	"github.com/psturc/build-service/pkg/renovate"
 )
 
 type installationStruct struct {

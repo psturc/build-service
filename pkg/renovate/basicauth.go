@@ -6,9 +6,9 @@ import (
 
 	ctrllog "sigs.k8s.io/controller-runtime/pkg/log"
 
-	"github.com/konflux-ci/build-service/pkg/boerrors"
-	"github.com/konflux-ci/build-service/pkg/git"
-	"github.com/konflux-ci/build-service/pkg/git/credentials"
+	"github.com/psturc/build-service/pkg/boerrors"
+	"github.com/psturc/build-service/pkg/git"
+	"github.com/psturc/build-service/pkg/git/credentials"
 )
 
 // BasicAuthTaskProvider is an implementation of the renovate.TaskProvider that creates the renovate.Task for the components

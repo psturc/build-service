@@ -7,7 +7,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	. "github.com/konflux-ci/build-service/pkg/git/credentials"
+	. "github.com/psturc/build-service/pkg/git/credentials"
 )
 
 func TestSecretMatching(t *testing.T) {

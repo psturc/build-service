@@ -39,8 +39,8 @@ import (
 	gh "github.com/google/go-github/v45/github"
 	appstudiov1alpha1 "github.com/konflux-ci/application-api/api/v1alpha1"
 
-	. "github.com/konflux-ci/build-service/pkg/common"
-	"github.com/konflux-ci/build-service/pkg/git/github"
+	. "github.com/psturc/build-service/pkg/common"
+	"github.com/psturc/build-service/pkg/git/github"
 	"gopkg.in/yaml.v2"
 )
 

@@ -23,7 +23,7 @@ import (
 
 	"github.com/xanzy/go-gitlab"
 
-	gp "github.com/konflux-ci/build-service/pkg/git/gitprovider"
+	gp "github.com/psturc/build-service/pkg/git/gitprovider"
 )
 
 // Allow mocking for tests

@@ -26,9 +26,9 @@ import (
 
 	"k8s.io/apimachinery/pkg/types"
 
-	. "github.com/konflux-ci/build-service/pkg/common"
-	"github.com/konflux-ci/build-service/pkg/git/github"
-	"github.com/konflux-ci/build-service/pkg/renovate"
+	. "github.com/psturc/build-service/pkg/common"
+	"github.com/psturc/build-service/pkg/git/github"
+	"github.com/psturc/build-service/pkg/renovate"
 )
 
 var _ = Describe("Git tekton resources renovater", func() {

@@ -55,11 +55,11 @@ import (
 	pacv1alpha1 "github.com/openshift-pipelines/pipelines-as-code/pkg/apis/pipelinesascode/v1alpha1"
 	tektonapi "github.com/tektoncd/pipeline/pkg/apis/pipeline/v1"
 
-	"github.com/konflux-ci/build-service/controllers"
-	"github.com/konflux-ci/build-service/pkg/bometrics"
-	"github.com/konflux-ci/build-service/pkg/k8s"
-	l "github.com/konflux-ci/build-service/pkg/logs"
-	"github.com/konflux-ci/build-service/pkg/webhook"
+	"github.com/psturc/build-service/controllers"
+	"github.com/psturc/build-service/pkg/bometrics"
+	"github.com/psturc/build-service/pkg/k8s"
+	l "github.com/psturc/build-service/pkg/logs"
+	"github.com/psturc/build-service/pkg/webhook"
 	//+kubebuilder:scaffold:imports
 )
 

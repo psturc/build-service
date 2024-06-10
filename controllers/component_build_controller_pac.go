@@ -48,12 +48,12 @@ import (
 	ctrllog "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/yaml"
 
-	"github.com/konflux-ci/build-service/pkg/boerrors"
-	. "github.com/konflux-ci/build-service/pkg/common"
-	"github.com/konflux-ci/build-service/pkg/git"
-	gp "github.com/konflux-ci/build-service/pkg/git/gitprovider"
-	"github.com/konflux-ci/build-service/pkg/git/gitproviderfactory"
-	l "github.com/konflux-ci/build-service/pkg/logs"
+	"github.com/psturc/build-service/pkg/boerrors"
+	. "github.com/psturc/build-service/pkg/common"
+	"github.com/psturc/build-service/pkg/git"
+	gp "github.com/psturc/build-service/pkg/git/gitprovider"
+	"github.com/psturc/build-service/pkg/git/gitproviderfactory"
+	l "github.com/psturc/build-service/pkg/logs"
 )
 
 const (

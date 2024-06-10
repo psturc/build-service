@@ -22,7 +22,7 @@ import (
 	"strings"
 	"testing"
 
-	gp "github.com/konflux-ci/build-service/pkg/git/gitprovider"
+	gp "github.com/psturc/build-service/pkg/git/gitprovider"
 )
 
 // THIS FILE IS NOT UNIT TESTS

@@ -43,8 +43,8 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/konflux-ci/build-service/pkg/k8s"
-	"github.com/konflux-ci/build-service/pkg/webhook"
+	"github.com/psturc/build-service/pkg/k8s"
+	"github.com/psturc/build-service/pkg/webhook"
 	//+kubebuilder:scaffold:imports
 )
 

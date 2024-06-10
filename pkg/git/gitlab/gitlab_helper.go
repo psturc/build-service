@@ -24,8 +24,8 @@ import (
 
 	"github.com/xanzy/go-gitlab"
 
-	"github.com/konflux-ci/build-service/pkg/boerrors"
-	gp "github.com/konflux-ci/build-service/pkg/git/gitprovider"
+	"github.com/psturc/build-service/pkg/boerrors"
+	gp "github.com/psturc/build-service/pkg/git/gitprovider"
 
 	"net/url"
 )

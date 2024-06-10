@@ -25,7 +25,7 @@ import (
 	"github.com/google/go-github/v45/github"
 	"golang.org/x/oauth2"
 
-	gp "github.com/konflux-ci/build-service/pkg/git/gitprovider"
+	gp "github.com/psturc/build-service/pkg/git/gitprovider"
 )
 
 // Allow mocking for tests

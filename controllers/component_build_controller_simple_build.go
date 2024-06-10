@@ -33,10 +33,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	ctrllog "sigs.k8s.io/controller-runtime/pkg/log"
 
-	"github.com/konflux-ci/build-service/pkg/boerrors"
-	. "github.com/konflux-ci/build-service/pkg/common"
-	"github.com/konflux-ci/build-service/pkg/git/gitproviderfactory"
-	l "github.com/konflux-ci/build-service/pkg/logs"
+	"github.com/psturc/build-service/pkg/boerrors"
+	. "github.com/psturc/build-service/pkg/common"
+	"github.com/psturc/build-service/pkg/git/gitproviderfactory"
+	l "github.com/psturc/build-service/pkg/logs"
 )
 
 // SubmitNewBuild creates a new PipelineRun to build a new image for the given component.

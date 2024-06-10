@@ -3,7 +3,7 @@ package credentials
 import (
 	"context"
 
-	"github.com/konflux-ci/build-service/pkg/git"
+	"github.com/psturc/build-service/pkg/git"
 )
 
 const (

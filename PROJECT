@@ -5,5 +5,5 @@ plugins:
   manifests.sdk.operatorframework.io/v2: {}
   scorecard.sdk.operatorframework.io/v2: {}
 projectName: build-service
-repo: github.com/konflux-ci/build-service
+repo: github.com/psturc/build-service
 version: "3"

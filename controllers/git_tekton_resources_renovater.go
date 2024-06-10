@@ -33,11 +33,11 @@ import (
 
 	appstudiov1alpha1 "github.com/konflux-ci/application-api/api/v1alpha1"
 
-	. "github.com/konflux-ci/build-service/pkg/common"
-	"github.com/konflux-ci/build-service/pkg/git"
-	"github.com/konflux-ci/build-service/pkg/k8s"
-	l "github.com/konflux-ci/build-service/pkg/logs"
-	"github.com/konflux-ci/build-service/pkg/renovate"
+	. "github.com/psturc/build-service/pkg/common"
+	"github.com/psturc/build-service/pkg/git"
+	"github.com/psturc/build-service/pkg/k8s"
+	l "github.com/psturc/build-service/pkg/logs"
+	"github.com/psturc/build-service/pkg/renovate"
 	corev1 "k8s.io/api/core/v1"
 )
 
