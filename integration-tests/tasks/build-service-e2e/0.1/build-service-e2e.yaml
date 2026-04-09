@@ -141,6 +141,7 @@ spec:
 
         log "INFO" "running tests with github user: ${GITHUB_USER}"
 
+        git config --global --add safe.directory /workspace/source
         git config --global user.name "redhat-appstudio-qe-bot"
         git config --global user.email redhat-appstudio-qe-bot@redhat.com
 
