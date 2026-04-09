@@ -149,7 +149,9 @@ spec:
         git config --global credential.helper "store --file $git_creds_path"
         echo "https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com" > "$git_creds_path"
 
-        git clone --branch "${GIT_REVISION}" "${GIT_URL}" /workspace/source
+        git clone "${GIT_URL}" /workspace/source
+        cd /workspace/source
+        git checkout "${GIT_REVISION}"
 
         mkdir -p "${ARTIFACT_DIR}"
 
