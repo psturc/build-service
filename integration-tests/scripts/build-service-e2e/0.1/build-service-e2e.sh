@@ -55,6 +55,8 @@ post_actions() {
 
 trap post_actions EXIT
 
+sleep 3600
+
 load_envs
 
 LABEL_FILTER="build-service"

@@ -160,9 +160,9 @@ spec:
         resolver: git
         params:
           - name: url
-            value: https://github.com/konflux-ci/build-service.git
+            value: https://github.com/psturc/build-service.git
           - name: revision
-            value: main
+            value: KFLUXDP-872
           - name: pathInRepo
             value: integration-tests/tasks/build-service-e2e/0.1/build-service-e2e.yaml
       params:
