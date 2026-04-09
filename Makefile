@@ -122,6 +122,12 @@ lint: golangci-lint ## Run golangci-lint linter
 lint-fix: golangci-lint ## Run golangci-lint linter and perform fixes
 	$(GOLANGCI_LINT) run --fix
 
+##@ E2E Tests
+
+.PHONY: test/e2e
+test/e2e: ## Run build-service E2E tests (requires a running Konflux cluster).
+	cd test/e2e && go test ./tests/build/ -v -count=1 -timeout=90m -ginkgo.label-filter="build-service"
+
 ##@ Build
 
 .PHONY: build
