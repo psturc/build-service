@@ -38,20 +38,24 @@ type ImageInspectInfo struct {
 
 func DoesImageRepoExistInQuay(quayImageRepoName string) (bool, error) {
 	exists, err := quayClient.RepositoryExists(quayOrg, quayImageRepoName)
-	if err != nil {
-		return false, err
+	if exists {
+		return true, nil
+	} else if err != nil && strings.Contains(err.Error(), "does not exist") {
+		return false, nil
 	}
-	return exists, nil
+	return false, err
 }
 
 func DoesRobotAccountExistInQuay(robotAccountName string) (bool, error) {
-	_, err := quayClient.GetRobotAccount(quayOrg, robotAccountName)
+	robotAccount, err := quayClient.GetRobotAccount(quayOrg, robotAccountName)
 	if err != nil {
-		if err.Error() == "Could not find robot with specified username" {
+		if strings.Contains(err.Error(), "Could not find robot with specified username") {
 			return false, nil
-		} else {
-			return false, err
 		}
+		return false, err
+	}
+	if robotAccount == nil {
+		return false, nil
 	}
 	return true, nil
 }

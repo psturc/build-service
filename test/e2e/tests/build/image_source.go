@@ -25,6 +25,7 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 
 	Describe("Creating component with container image source", Label("image-source", "github"), Ordered, func() {
 		var applicationName, componentName, testNamespace string
+		var timeout time.Duration
 		var buildPipelineAnnotation map[string]string
 
 		BeforeAll(func() {
@@ -37,6 +38,7 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 			Expect(err).NotTo(HaveOccurred())
 
 			componentName = fmt.Sprintf("build-suite-test-component-image-source-%s", util.GenerateRandomString(6))
+			timeout = time.Second * 10
 
 			buildPipelineAnnotation = build.GetBuildPipelineBundleAnnotation(constants.DockerBuildOciTA)
 
@@ -74,7 +76,7 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 				_, err := f.AsKubeAdmin.HasController.GetComponentPipelineRun(componentName, applicationName, testNamespace, "")
 				Expect(err).To(HaveOccurred())
 				return strings.Contains(err.Error(), "no pipelinerun found")
-			}, 1*time.Minute, constants.PipelineRunPollingInterval).Should(BeTrue(), fmt.Sprintf("expected no PipelineRun to be triggered for the component %s in %s namespace", componentName, testNamespace))
+			}, timeout, constants.PipelineRunPollingInterval).Should(BeTrue(), fmt.Sprintf("expected no PipelineRun to be triggered for the component %s in %s namespace", componentName, testNamespace))
 		})
 	})
 })
