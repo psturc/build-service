@@ -411,20 +411,23 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 					}, time.Minute*3, time.Second*10).Should(BeTrue(), fmt.Sprintf("image tag %s does not exist in quay after timeout", outputImage))
 				})
 
-				It("should ensure pruning labels are set", func() {
-					plr, err = f.AsKubeAdmin.HasController.GetComponentPipelineRun(customBranchComponentName, applicationName, testNamespace, "")
-					Expect(err).ShouldNot(HaveOccurred())
+			It("should ensure pruning labels are set", func() {
+				plr, err = f.AsKubeAdmin.HasController.GetComponentPipelineRun(customBranchComponentName, applicationName, testNamespace, "")
+				Expect(err).ShouldNot(HaveOccurred())
 
-					image, err := build.ImageFromPipelineRun(plr)
-					Expect(err).ShouldNot(HaveOccurred())
+				var image *build.PipelineImageInfo
+				Eventually(func() error {
+					image, err = build.ImageFromPipelineRun(plr)
+					return err
+				}, time.Minute*2, time.Second*10).Should(Succeed(), "timed out waiting for image manifest to become available in Quay")
 
-					labels := image.Config.Config.Labels
-					Expect(labels).ToNot(BeEmpty())
+				labels := image.Config.Config.Labels
+				Expect(labels).ToNot(BeEmpty())
 
-					expiration, ok := labels["quay.expires-after"]
-					Expect(ok).To(BeTrue())
-					Expect(expiration).To(Equal(utils.GetEnv(constants.IMAGE_TAG_EXPIRATION_ENV, constants.DefaultImageTagExpiration)))
-				})
+				expiration, ok := labels["quay.expires-after"]
+				Expect(ok).To(BeTrue())
+				Expect(expiration).To(Equal(utils.GetEnv(constants.IMAGE_TAG_EXPIRATION_ENV, constants.DefaultImageTagExpiration)))
+			})
 				It("eventually leads to the PipelineRun status report at Checks tab", func() {
 					switch gitProvider {
 					case git.GitHubProvider:
@@ -537,17 +540,20 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 					mergeResultSha = plr.Labels["pipelinesascode.tekton.dev/sha"]
 				})
 
-				It("does not have expiration set", func() {
-					image, err := build.ImageFromPipelineRun(plr)
-					Expect(err).ShouldNot(HaveOccurred())
+			It("does not have expiration set", func() {
+				var image *build.PipelineImageInfo
+				Eventually(func() error {
+					image, err = build.ImageFromPipelineRun(plr)
+					return err
+				}, time.Minute*2, time.Second*10).Should(Succeed(), "timed out waiting for image manifest to become available in Quay")
 
-					labels := image.Config.Config.Labels
-					Expect(labels).ToNot(BeEmpty())
+				labels := image.Config.Config.Labels
+				Expect(labels).ToNot(BeEmpty())
 
-					expiration, ok := labels["quay.expires-after"]
-					Expect(ok).To(BeFalse())
-					Expect(expiration).To(BeEmpty())
-				})
+				expiration, ok := labels["quay.expires-after"]
+				Expect(ok).To(BeFalse())
+				Expect(expiration).To(BeEmpty())
+			})
 
 				It("After updating image visibility to private, it should not trigger another PipelineRun", func() {
 					Eventually(func() error {

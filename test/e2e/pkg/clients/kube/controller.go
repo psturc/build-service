@@ -3,6 +3,7 @@ package kube
 import (
 	"fmt"
 
+	"github.com/konflux-ci/build-service/test/e2e/pkg/clients/forgejo"
 	"github.com/konflux-ci/build-service/test/e2e/pkg/clients/github"
 	"github.com/konflux-ci/build-service/test/e2e/pkg/clients/gitlab"
 	"github.com/konflux-ci/build-service/test/e2e/pkg/constants"
@@ -12,8 +13,9 @@ import (
 type Controller struct {
 	*CustomClient
 
-	GitHub *github.Client
-	GitLab *gitlab.Client
+	GitHub  *github.Client
+	GitLab  *gitlab.Client
+	Forgejo *forgejo.ForgejoClient
 }
 
 func NewController(kubeC *CustomClient) (*Controller, error) {
@@ -27,9 +29,23 @@ func NewController(kubeC *CustomClient) (*Controller, error) {
 		return nil, fmt.Errorf("failed to authenticate with GitLab: %w", err)
 	}
 
+	var fj *forgejo.ForgejoClient
+	forgejoToken := utils.GetEnv(constants.CODEBERG_BOT_TOKEN_ENV, "")
+	if forgejoToken != "" {
+		fj, err = forgejo.NewForgejoClient(
+			forgejoToken,
+			utils.GetEnv(constants.CODEBERG_API_URL_ENV, constants.DefaultCodebergAPIURL),
+			utils.GetEnv(constants.CODEBERG_QE_ORG_ENV, constants.DefaultCodebergQEOrg),
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to authenticate with Forgejo/Codeberg: %w", err)
+		}
+	}
+
 	return &Controller{
 		CustomClient: kubeC,
 		GitHub:       gh,
 		GitLab:       gl,
+		Forgejo:      fj,
 	}, nil
 }

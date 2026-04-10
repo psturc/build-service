@@ -109,9 +109,13 @@ func DoesQuayOrgSupportPrivateRepo() (bool, error) {
 	if err != nil {
 		if err.Error() == "payment required" {
 			return false, nil
-		} else {
-			return false, err
 		}
+		// Repo might already exist from a parallel test run; if so, the org does support private repos.
+		if strings.Contains(err.Error(), "Could not create repository") || strings.Contains(err.Error(), "already exists") {
+			_, _ = DeleteImageRepo(constants.SamplePrivateRepoName)
+			return true, nil
+		}
+		return false, err
 	}
 	if repo == nil {
 		return false, fmt.Errorf("%v repository created is nil", repo)

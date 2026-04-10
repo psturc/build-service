@@ -234,42 +234,37 @@ func init() {
 		},
 	})
 
-	// Register Forgejo (Codeberg) provider
-	// TODO: Uncomment when Forgejo client is added to the lean framework
-	//       Requires: git.NewForgejoClient, build.CreateCodebergBuildSecret,
-	//       and CommonController.Forgejo in the framework's ControllerHub.
-	//
-	// RegisterGitProvider(&GitProviderConfig{
-	//     Provider:            git.ForgejoProvider,
-	//     Prefix:              "fj",
-	//     LabelName:           "forgejo",
-	//     URLFormat:           forgejoUrlFormat,
-	//     Org:                 forgejoOrg,
-	//     SourceRepoProjectID: helloWorldComponentForgejoProjectID,
-	//     TokenEnvVar:         constants.CODEBERG_BOT_TOKEN_ENV,
-	//     SecretName:          "forgejo-pac-secret",
-	//
-	//     CreateClient: func(f *framework.Framework) git.Client {
-	//         return git.NewForgejoClient(f.AsKubeAdmin.CommonController.Forgejo)
-	//     },
-	//
-	//     SetupBuildSecret: func(f *framework.Framework) error {
-	//         forgejoToken := utils.GetEnv(constants.CODEBERG_BOT_TOKEN_ENV, "")
-	//         if forgejoToken == "" {
-	//             return fmt.Errorf("forgejo token environment variable %s is not set", constants.CODEBERG_BOT_TOKEN_ENV)
-	//         }
-	//         secretAnnotations := map[string]string{}
-	//         return build.CreateCodebergBuildSecret(f, "forgejo-pac-secret", secretAnnotations, forgejoToken)
-	//     },
-	//
-	//     BuildTargetRepoName: func(baseRepoName string) string {
-	//         return fmt.Sprintf("%s/%s", forgejoOrg, baseRepoName+"-"+util.GenerateRandomString(6))
-	//     },
-	//
-	//     BuildTargetRepoURL: func(org, repoName string) string {
-	//         return fmt.Sprintf(forgejoUrlFormat, repoName)
-	//     },
-	// })
+	RegisterGitProvider(&GitProviderConfig{
+		Provider:            git.ForgejoProvider,
+		Prefix:              "fj",
+		LabelName:           "forgejo",
+		URLFormat:           forgejoUrlFormat,
+		Org:                 forgejoOrg,
+		SourceRepoProjectID: helloWorldComponentForgejoProjectID,
+		TokenEnvVar:         constants.CODEBERG_BOT_TOKEN_ENV,
+		SecretName:          "forgejo-pac-secret",
+
+		CreateClient: func(f *framework.Framework) git.Client {
+			return git.NewForgejoClient(f.AsKubeAdmin.CommonController.Forgejo)
+		},
+
+		SetupBuildSecret: func(f *framework.Framework) error {
+			forgejoToken := utils.GetEnv(constants.CODEBERG_BOT_TOKEN_ENV, "")
+			if forgejoToken == "" {
+				return fmt.Errorf("forgejo token environment variable %s is not set", constants.CODEBERG_BOT_TOKEN_ENV)
+			}
+			secretAnnotations := map[string]string{}
+			return build.CreateCodebergBuildSecret(f, "forgejo-pac-secret", secretAnnotations, forgejoToken)
+		},
+
+		BuildTargetRepoName: func(baseRepoName string) string {
+			return fmt.Sprintf("%s/%s", forgejoOrg, baseRepoName+"-"+util.GenerateRandomString(6))
+		},
+
+		BuildTargetRepoURL: func(org, repoName string) string {
+			return fmt.Sprintf(forgejoUrlFormat, repoName)
+		},
+	})
 }
 
 // SetupGitProviderWithConfig sets up a git provider using the registry configuration

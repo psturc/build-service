@@ -69,6 +69,15 @@ fi
 
 GINKGO_PROCS="${GINKGO_PROCS:-10}"
 
+log "INFO" "Tuning cluster resources for parallel e2e tests"
+kubectl -n pipelines-as-code patch deployment pipelines-as-code-controller \
+    --type=json -p '[
+    {"op":"replace","path":"/spec/template/spec/containers/0/resources/limits/memory","value":"512Mi"},
+    {"op":"replace","path":"/spec/template/spec/containers/0/resources/requests/memory","value":"256Mi"}
+]' 2>/dev/null && \
+kubectl -n pipelines-as-code rollout status deployment/pipelines-as-code-controller --timeout=120s 2>/dev/null || \
+log "WARN" "Could not patch PaC controller resources, continuing with defaults"
+
 log "INFO" "Running build-service e2e tests with label filter: ${LABEL_FILTER}, procs: ${GINKGO_PROCS}"
 
 cd /workspace/source/test/e2e
