@@ -20,6 +20,10 @@ const (
 	GITLAB_QE_ORG_ENV    string = "GITLAB_QE_ORG"
 	GITLAB_API_URL_ENV   string = "GITLAB_API_URL" // #nosec
 
+	CODEBERG_BOT_TOKEN_ENV string = "CODEBERG_BOT_TOKEN" // #nosec
+	CODEBERG_QE_ORG_ENV    string = "CODEBERG_QE_ORG"
+	CODEBERG_API_URL_ENV   string = "CODEBERG_API_URL" // #nosec
+
 
 	// Custom pipeline bundle overrides
 	CUSTOM_DOCKER_BUILD_PIPELINE_BUNDLE_ENV                      string = "CUSTOM_DOCKER_BUILD_PIPELINE_BUNDLE"
@@ -40,6 +44,8 @@ const (
 	DefaultQuayOrg        = "redhat-appstudio-qe"
 	DefaultGitLabAPIURL   = "https://gitlab.com/api/v4"
 	DefaultGitLabQEOrg    = "konflux-qe"
+	DefaultCodebergQEOrg  = "konflux-qe"
+	DefaultCodebergAPIURL = "https://codeberg.org/api/v1"
 
 	RegistryAuthSecretName = "redhat-appstudio-registry-pull-secret"
 	ComponentSecretName    = "comp-secret"

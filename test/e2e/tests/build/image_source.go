@@ -23,9 +23,8 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 	var err error
 	defer GinkgoRecover()
 
-	Describe("Creating component with container image source", Label("github"), Ordered, func() {
+	Describe("Creating component with container image source", Label("image-source", "github"), Ordered, func() {
 		var applicationName, componentName, testNamespace string
-		var timeout time.Duration
 		var buildPipelineAnnotation map[string]string
 
 		BeforeAll(func() {
@@ -38,11 +37,8 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 			Expect(err).NotTo(HaveOccurred())
 
 			componentName = fmt.Sprintf("build-suite-test-component-image-source-%s", util.GenerateRandomString(6))
-			outputContainerImage := ""
-			timeout = time.Second * 10
 
-			// get the build pipeline bundle annotation before creating the component
-			buildPipelineAnnotation = build.GetBuildPipelineBundleAnnotation(constants.DockerBuild)
+			buildPipelineAnnotation = build.GetBuildPipelineBundleAnnotation(constants.DockerBuildOciTAMin)
 
 			// Create a component with containerImageSource being defined.
 			// A git source is required by the vcomponent.kb.io webhook,
@@ -58,7 +54,7 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 					},
 				},
 			}
-			_, err = f.AsKubeAdmin.HasController.CreateComponentCheckImageRepository(component, testNamespace, outputContainerImage, "", applicationName, true, buildPipelineAnnotation)
+			_, err = f.AsKubeAdmin.HasController.CreateComponent(component, testNamespace, containerImageSource, "", applicationName, true, buildPipelineAnnotation)
 			Expect(err).ShouldNot(HaveOccurred())
 		})
 
@@ -78,7 +74,7 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 				_, err := f.AsKubeAdmin.HasController.GetComponentPipelineRun(componentName, applicationName, testNamespace, "")
 				Expect(err).To(HaveOccurred())
 				return strings.Contains(err.Error(), "no pipelinerun found")
-			}, timeout, constants.PipelineRunPollingInterval).Should(BeTrue(), fmt.Sprintf("expected no PipelineRun to be triggered for the component %s in %s namespace", componentName, testNamespace))
+			}, 1*time.Minute, constants.PipelineRunPollingInterval).Should(BeTrue(), fmt.Sprintf("expected no PipelineRun to be triggered for the component %s in %s namespace", componentName, testNamespace))
 		})
 	})
 })

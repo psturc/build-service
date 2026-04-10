@@ -30,7 +30,10 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 	defer GinkgoRecover()
 
 	renovateEntries := GetEnabledProviderEntries()
-	DescribeTableSubtree("test of component update with renovate", Ordered, Label("renovate", "multi-component"), func(gitProvider git.GitProvider, gitPrefix string) {
+	//Pending due to : https://redhat.atlassian.net/browse/STONEBLD-4620
+	DescribeTableSubtree("test git provider", Pending, Label("renovate", "multi-component"), func(gitProvider git.GitProvider, gitPrefix string) {
+		// separate Describe is needed to avoid skipping tests for other git providers when one fails
+		Describe("component update with renovate", Ordered, func() {
 		type multiComponent struct {
 			repoName        string
 			baseBranch      string
@@ -162,16 +165,16 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 				}}, &runtime.RawExtension{Raw: rawData})
 			Expect(err).NotTo(HaveOccurred())
 
-			// get the build pipeline bundle annotation
-			buildPipelineAnnotation = build.GetBuildPipelineBundleAnnotation(constants.DockerBuild)
+		// get the build pipeline bundle annotation
+		buildPipelineAnnotation = build.GetBuildPipelineBundleAnnotation(constants.DockerBuildOciTAMin)
 
-			if gitProvider == git.GitLabProvider {
+		if gitProvider == git.GitLabProvider {
 				gitlabToken := utils.GetEnv(constants.GITLAB_BOT_TOKEN_ENV, "")
 				Expect(gitlabToken).ShouldNot(BeEmpty())
 
 				secretAnnotations := map[string]string{}
 
-				err = build.CreateGitlabBuildSecret(f, "pipelines-as-code-secret", secretAnnotations, gitlabToken)
+				err = build.CreateGitlabBuildSecret(f, "gitlab-pac-secret", secretAnnotations, gitlabToken)
 				Expect(err).ShouldNot(HaveOccurred())
 			}
 		})
@@ -415,6 +418,7 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 				Expect(file.Content).Should(Equal("image: " + distributionRepository + "@" + parentPostPacMergeDigest))
 
 			})
+		})
 		})
 	},
 		renovateEntries)

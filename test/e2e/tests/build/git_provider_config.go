@@ -210,7 +210,7 @@ func init() {
 		Org:                 gitlabOrg,
 		SourceRepoProjectID: helloWorldComponentGitLabProjectID,
 		TokenEnvVar:         constants.GITLAB_BOT_TOKEN_ENV,
-		SecretName:          "pipelines-as-code-secret",
+		SecretName:          "gitlab-pac-secret",
 
 		CreateClient: func(f *framework.Framework) git.Client {
 			return git.NewGitlabClient(f.AsKubeAdmin.CommonController.GitLab)
@@ -222,7 +222,7 @@ func init() {
 				return fmt.Errorf("GitLab token environment variable %s is not set", constants.GITLAB_BOT_TOKEN_ENV)
 			}
 			secretAnnotations := map[string]string{}
-			return build.CreateGitlabBuildSecret(f, "pipelines-as-code-secret", secretAnnotations, gitlabToken)
+			return build.CreateGitlabBuildSecret(f, "gitlab-pac-secret", secretAnnotations, gitlabToken)
 		},
 
 		BuildTargetRepoName: func(baseRepoName string) string {
@@ -234,36 +234,40 @@ func init() {
 		},
 	})
 
-	// To add Gitea, simply add another RegisterGitProvider call here:
+	// Register Forgejo (Codeberg) provider
+	// TODO: Uncomment when Forgejo client is added to the lean framework
+	//       Requires: git.NewForgejoClient, build.CreateCodebergBuildSecret,
+	//       and CommonController.Forgejo in the framework's ControllerHub.
 	//
 	// RegisterGitProvider(&GitProviderConfig{
-	//     Provider:            git.GiteaProvider,  // Add this constant to pkg/clients/git/git.go
-	//     Prefix:              "gt",
-	//     LabelName:           "gitea",
-	//     URLFormat:           giteaUrlFormat,     // Add to const.go: "https://gitea.example.com/%s/%s"
-	//     Org:                 giteaOrg,           // Add to const.go
-	//     SourceRepoProjectID: helloWorldComponentGiteaRepoName,
-	//     TokenEnvVar:         constants.GITEA_BOT_TOKEN_ENV,
-	//     SecretName:          "gitea-pac-secret",
+	//     Provider:            git.ForgejoProvider,
+	//     Prefix:              "fj",
+	//     LabelName:           "forgejo",
+	//     URLFormat:           forgejoUrlFormat,
+	//     Org:                 forgejoOrg,
+	//     SourceRepoProjectID: helloWorldComponentForgejoProjectID,
+	//     TokenEnvVar:         constants.CODEBERG_BOT_TOKEN_ENV,
+	//     SecretName:          "forgejo-pac-secret",
 	//
 	//     CreateClient: func(f *framework.Framework) git.Client {
-	//         return git.NewGiteaClient(f.AsKubeAdmin.CommonController.Gitea)
+	//         return git.NewForgejoClient(f.AsKubeAdmin.CommonController.Forgejo)
 	//     },
 	//
 	//     SetupBuildSecret: func(f *framework.Framework) error {
-	//         giteaToken := utils.GetEnv(constants.GITEA_BOT_TOKEN_ENV, "")
-	//         if giteaToken == "" {
-	//             return fmt.Errorf("Gitea token not set")
+	//         forgejoToken := utils.GetEnv(constants.CODEBERG_BOT_TOKEN_ENV, "")
+	//         if forgejoToken == "" {
+	//             return fmt.Errorf("forgejo token environment variable %s is not set", constants.CODEBERG_BOT_TOKEN_ENV)
 	//         }
-	//         return build.CreateGiteaBuildSecret(f, "gitea-pac-secret", nil, giteaToken)
+	//         secretAnnotations := map[string]string{}
+	//         return build.CreateCodebergBuildSecret(f, "forgejo-pac-secret", secretAnnotations, forgejoToken)
 	//     },
 	//
 	//     BuildTargetRepoName: func(baseRepoName string) string {
-	//         return baseRepoName + "-" + util.GenerateRandomString(6)
+	//         return fmt.Sprintf("%s/%s", forgejoOrg, baseRepoName+"-"+util.GenerateRandomString(6))
 	//     },
 	//
 	//     BuildTargetRepoURL: func(org, repoName string) string {
-	//         return fmt.Sprintf(giteaUrlFormat, org, repoName)
+	//         return fmt.Sprintf(forgejoUrlFormat, repoName)
 	//     },
 	// })
 }
