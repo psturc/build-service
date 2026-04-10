@@ -12,9 +12,20 @@ import (
 	"github.com/google/go-containerregistry/pkg/name"
 	"github.com/google/go-containerregistry/pkg/v1/mutate"
 	"github.com/google/go-containerregistry/pkg/v1/remote"
+	"github.com/konflux-ci/build-service/test/e2e/pkg/utils"
 	ginkgo "github.com/onsi/ginkgo/v2"
 	pipeline "github.com/tektoncd/pipeline/pkg/apis/pipeline/v1"
 )
+
+func remoteAuthOption(ref name.Reference) remote.Option {
+	quayToken := os.Getenv("QUAY_TOKEN")
+	if quayToken != "" {
+		if auth, err := utils.GetAuthenticatorForImageRef(ref, quayToken); err == nil {
+			return remote.WithAuth(auth)
+		}
+	}
+	return remote.WithAuthFromKeychain(authn.DefaultKeychain)
+}
 
 // PipelineImageInfo matches the openshift/oc image info layout used by tests (Config.Config.Labels).
 type PipelineImageInfo struct {
@@ -47,7 +58,7 @@ func ExtractImage(image string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("cannot parse image reference %q: %w", image, err)
 	}
-	img, err := remote.Image(ref, remote.WithAuthFromKeychain(authn.DefaultKeychain))
+	img, err := remote.Image(ref, remoteAuthOption(ref))
 	if err != nil {
 		return "", fmt.Errorf("pull image %q: %w", image, err)
 	}
@@ -136,7 +147,7 @@ func ImageFromPipelineRun(pipelineRun *pipeline.PipelineRun) (*PipelineImageInfo
 		return nil, fmt.Errorf("parse output image %q: %w", outputImage, err)
 	}
 
-	img, err := remote.Image(ref, remote.WithAuthFromKeychain(authn.DefaultKeychain))
+	img, err := remote.Image(ref, remoteAuthOption(ref))
 	if err != nil {
 		return nil, fmt.Errorf("get remote image: %w", err)
 	}

@@ -23,9 +23,21 @@ func (c *Client) DeleteRef(repository, branchName string) error {
 // the latest commit from base branch will be used.
 func (c *Client) CreateRef(repository, baseBranchName, sha, newBranchName string) error {
 	ctx := context.Background()
-	ref, _, err := c.client.Git.GetRef(ctx, c.organization, repository, fmt.Sprintf(HEADS, baseBranchName))
+
+	var ref *github.Reference
+	err := utils.WaitUntilWithInterval(func() (done bool, err error) {
+		ref, _, err = c.client.Git.GetRef(ctx, c.organization, repository, fmt.Sprintf(HEADS, baseBranchName))
+		if err != nil {
+			if strings.Contains(err.Error(), "404") {
+				fmt.Printf("Branch '%s' not available yet in repo '%s', retrying...\n", baseBranchName, repository)
+				return false, nil
+			}
+			return false, fmt.Errorf("error when getting the base branch name '%s' for the repo '%s': %+v", baseBranchName, repository, err)
+		}
+		return true, nil
+	}, 10*time.Second, 2*time.Minute)
 	if err != nil {
-		return fmt.Errorf("error when getting the base branch name '%s' for the repo '%s': %+v", baseBranchName, repository, err)
+		return fmt.Errorf("timed out waiting for base branch '%s' in repo '%s': %+v", baseBranchName, repository, err)
 	}
 
 	ref.Ref = github.String(fmt.Sprintf(HEADS, newBranchName))
