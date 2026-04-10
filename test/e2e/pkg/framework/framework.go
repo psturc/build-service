@@ -78,9 +78,10 @@ func NewFrameworkWithTimeout(userName string, timeout time.Duration) (*Framework
 	}
 
 	return &Framework{
-		AsKubeAdmin:      asAdmin,
-		ClusterAppDomain: clusterAppDomain,
-		UserNamespace:    nsName,
+		AsKubeAdmin:          asAdmin,
+		ClusterAppDomain:     clusterAppDomain,
+		OpenshiftConsoleHost: clusterAppDomain,
+		UserNamespace:        nsName,
 	}, nil
 }
 

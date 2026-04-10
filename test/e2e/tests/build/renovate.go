@@ -166,7 +166,7 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 			Expect(err).NotTo(HaveOccurred())
 
 		// get the build pipeline bundle annotation
-		buildPipelineAnnotation = build.GetBuildPipelineBundleAnnotation(constants.DockerBuildOciTAMin)
+		buildPipelineAnnotation = build.GetBuildPipelineBundleAnnotation(constants.DockerBuildOciTA)
 
 		if gitProvider == git.GitLabProvider {
 				gitlabToken := utils.GetEnv(constants.GITLAB_BOT_TOKEN_ENV, "")

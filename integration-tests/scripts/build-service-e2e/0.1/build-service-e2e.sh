@@ -50,12 +50,17 @@ post_actions() {
         log "ERROR" "The process for running tests timed out after $E2E_TIMEOUT" | tee -a "${ARTIFACT_DIR}/e2e-tests.log"
     fi
 
+    sleep 3600
+
     exit "$exit_code"
 }
 
 trap post_actions EXIT
 
 load_envs
+
+export CUSTOM_DOCKER_BUILD_OCI_TA_PIPELINE_BUNDLE="${CUSTOM_DOCKER_BUILD_OCI_TA_PIPELINE_BUNDLE:-quay.io/konflux-ci/tekton-catalog/pipeline-docker-build-oci-ta:devel}"
+log "INFO" "Using pipeline bundle: ${CUSTOM_DOCKER_BUILD_OCI_TA_PIPELINE_BUNDLE}"
 
 LABEL_FILTER="build-service"
 if [[ -n "${E2E_EXTRA_LABEL_FILTER:-}" ]]; then

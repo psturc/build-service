@@ -38,7 +38,7 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 
 			componentName = fmt.Sprintf("build-suite-test-component-image-source-%s", util.GenerateRandomString(6))
 
-			buildPipelineAnnotation = build.GetBuildPipelineBundleAnnotation(constants.DockerBuildOciTAMin)
+			buildPipelineAnnotation = build.GetBuildPipelineBundleAnnotation(constants.DockerBuildOciTA)
 
 			// Create a component with containerImageSource being defined.
 			// A git source is required by the vcomponent.kb.io webhook,
