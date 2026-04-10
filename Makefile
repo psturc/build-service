@@ -126,7 +126,7 @@ lint-fix: golangci-lint ## Run golangci-lint linter and perform fixes
 
 .PHONY: test/e2e
 test/e2e: ## Run build-service E2E tests (requires a running Konflux cluster).
-	cd test/e2e && go test ./tests/build/ -v -count=1 -timeout=90m -ginkgo.label-filter="build-service"
+	cd test/e2e && go run github.com/onsi/ginkgo/v2/ginkgo@latest -p --procs=$${GINKGO_PROCS:-10} -v --no-color --timeout=90m --label-filter="build-service" ./tests/build/
 
 ##@ Build
 

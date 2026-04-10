@@ -55,8 +55,6 @@ post_actions() {
 
 trap post_actions EXIT
 
-sleep 3600
-
 load_envs
 
 LABEL_FILTER="build-service"
@@ -64,14 +62,23 @@ if [[ -n "${E2E_EXTRA_LABEL_FILTER:-}" ]]; then
     LABEL_FILTER="${LABEL_FILTER} && ${E2E_EXTRA_LABEL_FILTER}"
 fi
 
-log "INFO" "Running build-service e2e tests with label filter: ${LABEL_FILTER}"
+GINKGO_PROCS="${GINKGO_PROCS:-10}"
+
+log "INFO" "Running build-service e2e tests with label filter: ${LABEL_FILTER}, procs: ${GINKGO_PROCS}"
 
 cd /workspace/source/test/e2e
 
-timeout "$E2E_TIMEOUT" go test ./tests/build/ \
+go install github.com/onsi/ginkgo/v2/ginkgo@latest
+
+timeout "$E2E_TIMEOUT" ginkgo \
+    -p \
+    --procs="${GINKGO_PROCS}" \
     -v \
-    -count=1 \
-    -timeout=90m \
-    -ginkgo.label-filter="${LABEL_FILTER}" \
-    -ginkgo.junit-report="${ARTIFACT_DIR}/e2e-report.xml" \
+    --no-color \
+    --output-interceptor-mode=none \
+    --timeout=90m \
+    --label-filter="${LABEL_FILTER}" \
+    --junit-report=e2e-report.xml \
+    --output-dir="${ARTIFACT_DIR}" \
+    ./tests/build/ \
     2>&1 | tee "${ARTIFACT_DIR}/e2e-tests.log"

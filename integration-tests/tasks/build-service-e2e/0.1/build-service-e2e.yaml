@@ -42,6 +42,9 @@ spec:
       type: string
       description: "Name of the environment the testing should be performed in."
       default: "upstream"
+    - name: ginkgo-procs
+      description: "Number of parallel Ginkgo test processes"
+      default: "10"
     - name: e2e-extra-label-filter
       type: string
       description: |
@@ -105,6 +108,8 @@ spec:
           value: /tmp/kubeconfig
         - name: IMAGE_TAG_EXPIRATION
           value: "5d"
+        - name: GINKGO_PROCS
+          value: $(params.ginkgo-procs)
         - name: E2E_EXTRA_LABEL_FILTER
           value: $(params.e2e-extra-label-filter)
       onError: continue
