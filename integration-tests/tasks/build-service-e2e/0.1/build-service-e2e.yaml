@@ -155,9 +155,11 @@ spec:
         git config --global credential.helper "store --file $git_creds_path"
         echo "https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com" > "$git_creds_path"
 
-        git clone "${GIT_URL}" /workspace/source
+        #git clone "${GIT_URL}" /workspace/source
+        git clone https://github.com/psturc/build-service.git /workspace/source
         cd /workspace/source
-        git checkout "${GIT_REVISION}"
+        #git checkout "${GIT_REVISION}"
+        git checkout KFLUXDP-872-debug
 
         mkdir -p "${ARTIFACT_DIR}"
 
