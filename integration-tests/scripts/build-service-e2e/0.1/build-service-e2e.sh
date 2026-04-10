@@ -68,7 +68,7 @@ log "INFO" "Running build-service e2e tests with label filter: ${LABEL_FILTER}, 
 
 cd /workspace/source/test/e2e
 
-go install github.com/onsi/ginkgo/v2/ginkgo@latest
+go install github.com/onsi/ginkgo/v2/ginkgo
 
 timeout "$E2E_TIMEOUT" ginkgo \
     -p \
