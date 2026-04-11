@@ -45,7 +45,7 @@ const (
 	DefaultGitLabAPIURL   = "https://gitlab.com/api/v4"
 	DefaultGitLabQEOrg    = "konflux-qe"
 	DefaultCodebergQEOrg  = "konflux-qe"
-	DefaultCodebergAPIURL = "https://codeberg.org/api/v1"
+	DefaultCodebergAPIURL = "https://codeberg.org"
 
 	RegistryAuthSecretName = "redhat-appstudio-registry-pull-secret"
 	ComponentSecretName    = "comp-secret"

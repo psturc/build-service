@@ -38,7 +38,8 @@ func NewController(kubeC *CustomClient) (*Controller, error) {
 			utils.GetEnv(constants.CODEBERG_QE_ORG_ENV, constants.DefaultCodebergQEOrg),
 		)
 		if err != nil {
-			return nil, fmt.Errorf("failed to authenticate with Forgejo/Codeberg: %w", err)
+			fmt.Printf("WARNING: failed to authenticate with Forgejo/Codeberg (Forgejo tests will be skipped): %v\n", err)
+			fj = nil
 		}
 	}
 
