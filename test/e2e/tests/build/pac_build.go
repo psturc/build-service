@@ -453,11 +453,11 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 					GinkgoWriter.Println("created file sha:", createdFileSHA)
 				})
 
-				It("eventually leads to triggering another PipelineRun", func() {
-					timeout = time.Minute * 30
+			It("eventually leads to triggering another PipelineRun", func() {
+				timeout = time.Minute * 5
 
-					Eventually(func() error {
-						plr, err = f.AsKubeAdmin.HasController.GetComponentPipelineRun(customBranchComponentName, applicationName, testNamespace, createdFileSHA)
+				Eventually(func() error {
+					plr, err = f.AsKubeAdmin.HasController.GetComponentPipelineRun(customBranchComponentName, applicationName, testNamespace, createdFileSHA)
 						if err != nil {
 							GinkgoWriter.Printf("PipelineRun has not been created yet for the component %s/%s\n", testNamespace, customBranchComponentName)
 							return err
