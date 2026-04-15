@@ -679,20 +679,20 @@ var _ = framework.BuildSuiteDescribe("Build service E2E tests", Label("build-ser
 					Expect(err).ShouldNot(HaveOccurred())
 				})
 
-				AfterAll(func() {
-					Eventually(func() bool {
-						prs, err := git.ListPullRequestsWithRetry(gitClient, helloWorldRepository)
-						Expect(err).ShouldNot(HaveOccurred())
+			AfterAll(func() {
+				Eventually(func() bool {
+					prs, err := git.ListPullRequestsWithRetry(gitClient, helloWorldRepository)
+					Expect(err).ShouldNot(HaveOccurred())
 
-						for _, pr := range prs {
-							if pr.TargetBranch == componentBaseBranchName {
-								GinkgoWriter.Printf("Found purge PR with id: %d\n", pr.Number)
-								purgePrNumber = pr.Number
-								return true
-							}
+					for _, pr := range prs {
+						if pr.TargetBranch == componentBaseBranchName {
+							GinkgoWriter.Printf("Found purge PR with id: %d\n", pr.Number)
+							purgePrNumber = pr.Number
+							return true
 						}
-						return false
-					}, time.Minute, time.Second*10).Should(BeTrue(), fmt.Sprintf("timed out when waiting for purge PR with traget branch %s to be created in %s repository", componentBaseBranchName, helloWorldRepository))
+					}
+					return false
+				}, 5*time.Minute, time.Second*10).Should(BeTrue(), fmt.Sprintf("timed out when waiting for purge PR with target branch %s to be created in %s repository", componentBaseBranchName, helloWorldRepository))
 
 				})
 
