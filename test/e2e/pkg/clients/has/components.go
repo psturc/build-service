@@ -504,6 +504,17 @@ func (h *Controller) RetriggerComponentPipelineRun(component *appservice.Compone
 				return "", fmt.Errorf("failed to retrigger PipelineRun %s in %s namespace: %+v", pr.GetName(), pr.GetNamespace(), err)
 			}
 			sha = file.CommitID
+		} else if gitProvider == "forgejo" {
+			if h.Forgejo == nil {
+				return "", fmt.Errorf("failed to retrigger PipelineRun %s in %s namespace: Forgejo client is not initialized", pr.GetName(), pr.GetNamespace())
+			}
+			forgejoOrg := utils.GetEnv(constants.CODEBERG_QE_ORG_ENV, constants.DefaultCodebergQEOrg)
+			projectID := fmt.Sprintf("%s/%s", forgejoOrg, repoName)
+			fileResp, err := h.Forgejo.CreateFile(projectID, util.GenerateRandomString(5), "test", branchName)
+			if err != nil {
+				return "", fmt.Errorf("failed to retrigger PipelineRun %s in %s namespace: error when creating file contents: %+v", pr.GetName(), pr.GetNamespace(), err)
+			}
+			sha = fileResp.Commit.SHA
 		} else {
 			file, err := h.GitHub.CreateFile(repoName, util.GenerateRandomString(5), "test", branchName)
 			if err != nil {
